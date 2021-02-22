@@ -3,8 +3,11 @@ import { gql } from 'apollo-server-express';
 const schema = gql`
   extend type Query {
     baselinePreferencesCompleted(userId: ID!): Boolean!
+    getBaselinePreference(userId: ID!, institutionType: InstitutionType!): Int
+  }
 
-    getBaselinePreference(userId: ID!, institutionType: InstitutionType): Int
+  extend type Mutation {
+    updateBaselinePreference(userId: ID!, institutionType: InstitutionType!, consentState: Int!): DataElementPreference!
   }
 
   type User {
