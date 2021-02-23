@@ -11,4 +11,112 @@ const baselinePreference = {
   },
 };
 
-export default { baselinePreference };
+const consent = {
+  1: {
+    userId: '1',
+    studyId: '1',
+    consentState: 111,
+    declineReason: null,
+    declineReasonOther: null,
+  },
+  2: {
+    userId: '1',
+    studyId: '2',
+    consentState: 109,
+    declineReason: null,
+    declineReasonOther: null,
+  },
+  3: {
+    userId: '1',
+    studyId: '3',
+    consentState: 45,
+    declineReason: null,
+    declineReasonOther: null,
+  },
+  4: {
+    userId: '1',
+    studyId: '4',
+    consentState: null,
+    declineReason: null,
+    declineReasonOther: null,
+  },
+  5: {
+    userId: '1',
+    studyId: '5',
+    consentState: null,
+    declineReason: null,
+    declineReasonOther: null,
+  },
+  6: {
+    userId: '1',
+    studyId: '6',
+    consentState: null,
+    declineReason: null,
+    declineReasonOther: null,
+  },
+};
+
+const study = {
+  1: {
+    id: '1',
+    title: 'study1-title',
+    studyDescription: 'study1-description',
+    enrollmentDeadline: '2021-12-24',
+    institutionFHIRClientID: 'study1-institution-FHIR-client-id',
+    institutionName: 'study1-institution-name',
+    institutionType: 'DOCTORSOFFICE',
+    requiredDataElements: 105,
+  },
+  2: {
+    id: '2',
+    title: 'study2-title',
+    studyDescription: 'study2-description',
+    enrollmentDeadline: '2021-10-21',
+    institutionFHIRClientID: 'study2-institution-FHIR-client-id',
+    institutionName: 'study2-institution-name',
+    institutionType: 'INSURANCE',
+    requiredDataElements: 108,
+  },
+  3: {
+    id: '3',
+    title: 'study3-title',
+    studyDescription: 'study3-description',
+    enrollmentDeadline: '2021-10-01',
+    institutionFHIRClientID: 'study3-institution-FHIR-client-id',
+    institutionName: 'study3-institution-name',
+    institutionType: 'UNIVERSITY',
+    requiredDataElements: 44,
+  },
+  4: {
+    id: '4',
+    title: 'study4-title',
+    studyDescription: 'study4-description',
+    enrollmentDeadline: '2021-11-01',
+    institutionFHIRClientID: 'study4-institution-FHIR-client-id',
+    institutionName: 'study4-institution-name',
+    institutionType: 'UNIVERSITY',
+    requiredDataElements: 60,
+  },
+  5: {
+    id: '5',
+    title: 'study5-title',
+    studyDescription: 'study5-description',
+    enrollmentDeadline: '2021-10-01',
+    institutionFHIRClientID: 'study5-institution-FHIR-client-id',
+    institutionName: 'study5-institution-name',
+    institutionType: 'UNIVERSITY',
+    requiredDataElements: 62,
+  },
+  6: {
+    id: '6',
+    title: 'study6-title',
+    studyDescription: 'study6-description',
+    enrollmentDeadline: '2021-10-01',
+    institutionFHIRClientID: 'study6-institution-FHIR-client-id',
+    institutionName: 'study6-institution-name',
+    institutionType: 'GOVHA',
+    requiredDataElements: 126,
+  },
+};
+
+export default { baselinePreference, consent, study };
