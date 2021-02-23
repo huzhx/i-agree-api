@@ -60,7 +60,7 @@ const study = {
   1: {
     id: '1',
     title: 'study1-title',
-    studyDescription: 'study1-description',
+    description: 'study1-description',
     enrollmentDeadline: '2021-12-24',
     institutionFHIRClientID: 'study1-institution-FHIR-client-id',
     institutionName: 'study1-institution-name',
@@ -70,7 +70,7 @@ const study = {
   2: {
     id: '2',
     title: 'study2-title',
-    studyDescription: 'study2-description',
+    description: 'study2-description',
     enrollmentDeadline: '2021-10-21',
     institutionFHIRClientID: 'study2-institution-FHIR-client-id',
     institutionName: 'study2-institution-name',
@@ -80,7 +80,7 @@ const study = {
   3: {
     id: '3',
     title: 'study3-title',
-    studyDescription: 'study3-description',
+    description: 'study3-description',
     enrollmentDeadline: '2021-10-01',
     institutionFHIRClientID: 'study3-institution-FHIR-client-id',
     institutionName: 'study3-institution-name',
@@ -90,7 +90,7 @@ const study = {
   4: {
     id: '4',
     title: 'study4-title',
-    studyDescription: 'study4-description',
+    description: 'study4-description',
     enrollmentDeadline: '2021-11-01',
     institutionFHIRClientID: 'study4-institution-FHIR-client-id',
     institutionName: 'study4-institution-name',
@@ -100,7 +100,7 @@ const study = {
   5: {
     id: '5',
     title: 'study5-title',
-    studyDescription: 'study5-description',
+    description: 'study5-description',
     enrollmentDeadline: '2021-10-01',
     institutionFHIRClientID: 'study5-institution-FHIR-client-id',
     institutionName: 'study5-institution-name',
@@ -110,7 +110,7 @@ const study = {
   6: {
     id: '6',
     title: 'study6-title',
-    studyDescription: 'study6-description',
+    description: 'study6-description',
     enrollmentDeadline: '2021-10-01',
     institutionFHIRClientID: 'study6-institution-FHIR-client-id',
     institutionName: 'study6-institution-name',
