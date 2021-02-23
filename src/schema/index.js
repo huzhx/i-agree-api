@@ -4,6 +4,7 @@ import userSchema from './user';
 import dataElementPreferenceSchema from './data-element-preference';
 import dataElementSchema from './data-element';
 import institutionTypeSchema from './institution-type';
+import studySchema from './study';
 
 const linkSchema = gql`
   type Query {
@@ -17,4 +18,11 @@ const linkSchema = gql`
   }
 `;
 
-export default [linkSchema, userSchema, dataElementPreferenceSchema, dataElementSchema, institutionTypeSchema];
+export default [
+  linkSchema,
+  userSchema,
+  dataElementPreferenceSchema,
+  dataElementSchema,
+  institutionTypeSchema,
+  studySchema,
+];
