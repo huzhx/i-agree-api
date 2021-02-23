@@ -29,6 +29,22 @@ const resolvers = {
         return study;
       });
     },
+    getAnsweredStudies: (parent, { userId }, { models }) => {
+      const answeredReqs = Object.values(models.consent).filter(
+        (req) => req.userId === userId && req.consentState !== null
+      );
+      return answeredReqs.map((req) => {
+        const studyId = req.studyId;
+        const study = models.study[studyId];
+        const studyPreference = {
+          ...study,
+          consentState: req.consentState,
+          declineReason: req.declineReason,
+          declineReasonOther: req.declineReasonOther,
+        };
+        return studyPreference;
+      });
+    },
   },
 
   Mutation: {

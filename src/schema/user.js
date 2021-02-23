@@ -6,6 +6,7 @@ const schema = gql`
     getBaselinePreference(userId: ID!, institutionType: InstitutionType!): Int
     getPendingStudiesNumber(userId: ID!): Int!
     getPendingStudies(userId: ID!): [Study!]
+    getAnsweredStudies(userId: ID!): [StudyPreference!]
   }
 
   extend type Mutation {
