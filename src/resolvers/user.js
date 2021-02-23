@@ -19,6 +19,16 @@ const resolvers = {
       }
       return pendingStudiesNumber;
     },
+    getPendingStudies: (parent, { userId }, { models }) => {
+      const pendingReqs = Object.values(models.consent).filter(
+        (req) => req.userId === userId && req.consentState === null
+      );
+      return pendingReqs.map((req) => {
+        const studyId = req.studyId;
+        const study = models.study[studyId];
+        return study;
+      });
+    },
   },
 
   Mutation: {
