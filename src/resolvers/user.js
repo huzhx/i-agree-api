@@ -10,6 +10,15 @@ const resolvers = {
         return null;
       }
     },
+    getPendingStudiesNumber: (parent, { userId }, { models }) => {
+      let pendingStudiesNumber = 0;
+      for (let value of Object.values(models.consent)) {
+        if (value['userId'] === userId && value['consentState'] === null) {
+          pendingStudiesNumber++;
+        }
+      }
+      return pendingStudiesNumber;
+    },
   },
 
   Mutation: {
