@@ -60,6 +60,22 @@ const resolvers = {
         consentState,
       };
     },
+    updateStudyPreference: (parent, { userId, studyId, consentInfo }, { models }) => {
+      const reqs = Object.values(models.consent).filter((req) => req.userId === userId && req.studyId === studyId);
+      if (reqs.length === 0) return null;
+      const req = reqs[0];
+      req.consentState = consentInfo.consentState;
+      req.declineReason = consentInfo.declineReason;
+      req.declineReasonOther = consentInfo.declineReasonOther;
+      const study = models.study[studyId];
+      const studyPreference = {
+        ...study,
+        consentState: req.consentState,
+        declineReason: req.declineReason,
+        declineReasonOther: req.declineReasonOther,
+      };
+      return studyPreference;
+    },
   },
 };
 

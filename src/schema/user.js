@@ -11,11 +11,18 @@ const schema = gql`
 
   extend type Mutation {
     updateBaselinePreference(userId: ID!, institutionType: InstitutionType!, consentState: Int!): DataElementPreference!
+    updateStudyPreference(userId: ID!, studyId: ID!, consentInfo: ConsentInfo!): StudyPreference!
   }
 
   type User {
     id: ID!
     baselinePreference: [DataElementPreference!]
+  }
+
+  input ConsentInfo {
+    consentState: Int!
+    declineReason: String
+    declineReasonOther: String
   }
 `;
 
