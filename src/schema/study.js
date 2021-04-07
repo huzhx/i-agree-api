@@ -4,11 +4,18 @@ const schema = gql`
   type Study {
     id: ID!
     title: String!
-    description: String!
+    purpose: String!
     institutionName: String!
     institutionType: InstitutionType!
+    principleInvestigator: String!
+    sponsor: String!
+    irbContent: String!
+    irbApprovalDate: String!
+    irbApprovedBy: String!
+    additionalInfoURL: String!
     enrollmentDeadline: String!
     requiredDataElements: Int!
+    status: String!
   }
 `;
 
