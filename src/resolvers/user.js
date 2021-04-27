@@ -1,3 +1,5 @@
+import { ApolloError } from 'apollo-server-errors';
+
 const resolvers = {
   Query: {
     baselinePreferencesCompleted: (parent, { userId }, { models }) => {
@@ -10,7 +12,10 @@ const resolvers = {
         return null;
       }
     },
-    getPendingStudiesNumber: (parent, { userId }, { models }) => {
+    getPendingStudiesNumber: (parent, args, { models, isAuth, userId }) => {
+      if (!isAuth) {
+        throw new ApolloError('Authentication required', '403');
+      }
       let pendingStudiesNumber = 0;
       for (let value of Object.values(models.consent)) {
         if (value['userId'] === userId && value['consentState'] === null) {
