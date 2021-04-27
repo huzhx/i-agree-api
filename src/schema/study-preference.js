@@ -4,7 +4,7 @@ const schema = gql`
   type StudyPreference {
     id: ID!
     title: String!
-    description: String!
+    purpose: String!
     institutionName: String!
     institutionType: InstitutionType!
     enrollmentDeadline: String!
