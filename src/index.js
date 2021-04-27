@@ -6,10 +6,9 @@ import { ApolloServer } from 'apollo-server-express';
 import typeDefs from './schema';
 import resolvers from './resolvers';
 import models from './models';
+import auth from './utils/auth'
 
 console.log('Hello running iAgree Project.');
-
-console.log(process.env.MY_SECRET);
 
 const app = express();
 
@@ -18,8 +17,9 @@ app.use(cors());
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context: {
-    models,
+  context: ({ req }) => {
+    const authState = auth(req);
+    return { models, ...authState };
   },
 });
 
