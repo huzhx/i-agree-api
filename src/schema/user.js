@@ -9,7 +9,7 @@ const schema = gql`
   extend type Query {
     baselinePreferencesCompleted(userId: ID!): Boolean!
     getBaselinePreference(userId: ID!, institutionType: InstitutionType!): Int
-    getPendingStudiesNumber(userId: ID!): Int!
+    getPendingStudiesNumber: Int!
     getPendingStudies(userId: ID!): [Study!]
     getAnsweredStudies(userId: ID!): [StudyPreference!]
   }
