@@ -40,20 +40,6 @@ const consent = {
     declineReason: null,
     declineReasonOther: null,
   },
-  5: {
-    userId: '1',
-    studyId: '5',
-    consentState: null,
-    declineReason: null,
-    declineReasonOther: null,
-  },
-  6: {
-    userId: '1',
-    studyId: '6',
-    consentState: null,
-    declineReason: null,
-    declineReasonOther: null,
-  },
 };
 
 const study = {
