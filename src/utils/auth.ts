@@ -1,7 +1,6 @@
 import jwt from 'jsonwebtoken';
 
-const auth = (req) => {
-
+const auth = (req: any) => {
   let token = req.headers.authorization || '';
 
   if (!token) {
@@ -16,7 +15,7 @@ const auth = (req) => {
 
   let decoded;
   try {
-    decoded = jwt.verify(token, process.env.JWT_SECRET);
+    decoded = jwt.verify(token, process.env.JWT_SECRET!);
   } catch (err) {
     console.log(err);
     return { isAuth: false };
@@ -30,7 +29,7 @@ const auth = (req) => {
 
   console.log({ decoded });
 
-  return { isAuth: true, ...decoded };
+  return { isAuth: true, ...(decoded as {}) };
 };
 
 export default auth;
