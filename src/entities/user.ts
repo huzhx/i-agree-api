@@ -1,4 +1,4 @@
-import { ApolloError } from 'apollo-server-errors';
+import { AuthenticationError } from 'apollo-server-errors';
 import { UserInterface } from '../interfaces/user-interface';
 
 export class User implements UserInterface {
@@ -17,7 +17,7 @@ export class User implements UserInterface {
 
   private valid(): void {
     if (this._isAuthed === false || this._id === undefined) {
-      throw new ApolloError('Authentication required', '403');
+      throw new AuthenticationError('Authentication required');
     }
   }
 
