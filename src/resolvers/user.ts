@@ -1,47 +1,34 @@
-import { ApolloError } from 'apollo-server-errors';
 import { ContextInterface } from '../interfaces/context-interface';
 
 const resolvers = {
   Query: {
-    baselinePreferencesCompleted: (parent: any, args: any, { models, isAuth, userId }: ContextInterface) => {
-      if (!isAuth) {
-        throw new ApolloError('Authentication required', '403');
-      }
-      return userId in models.baselinePreference && Object.keys(models.baselinePreference[userId]).length === 8;
+    baselinePreferencesCompleted: (parent: any, args: any, { models, user }: ContextInterface) => {
+      return user.id! in models.baselinePreference && Object.keys(models.baselinePreference[user.id!]).length === 8;
     },
     getBaselinePreference: (
       parent: any,
       { institutionType }: { institutionType: string },
-      { models, isAuth, userId }: ContextInterface
+      { models, user }: ContextInterface
     ) => {
-      if (!isAuth) {
-        throw new ApolloError('Authentication required', '403');
-      }
-      if (userId in models.baselinePreference) {
-        return models.baselinePreference[userId][institutionType];
+      if (user.id! in models.baselinePreference) {
+        return models.baselinePreference[user.id!][institutionType];
       } else {
         return null;
       }
     },
-    getPendingStudiesNumber: (parent: any, args: any, { models, isAuth, userId }: ContextInterface) => {
-      if (!isAuth) {
-        throw new ApolloError('Authentication required', '403');
-      }
+    getPendingStudiesNumber: (parent: any, args: any, { models, user }: ContextInterface) => {
       let pendingStudiesNumber = 0;
       let value: any;
       for (value of Object.values(models.consent)) {
-        if (value['userId'] === userId && value['consentState'] === null) {
+        if (value['userId'] === user.id! && value['consentState'] === null) {
           pendingStudiesNumber++;
         }
       }
       return pendingStudiesNumber;
     },
-    getPendingStudies: (parent: any, args: any, { models, isAuth, userId }: ContextInterface) => {
-      if (!isAuth) {
-        throw new ApolloError('Authentication required', '403');
-      }
+    getPendingStudies: (parent: any, args: any, { models, user }: ContextInterface) => {
       const pendingReqs = Object.values(models.consent).filter(
-        (req: any) => req.userId === userId && req.consentState === null
+        (req: any) => req.userId === user.id! && req.consentState === null
       );
       return pendingReqs.map((pendingReq: any) => {
         const studyId = pendingReq.studyId;
@@ -49,12 +36,9 @@ const resolvers = {
         return study;
       });
     },
-    getAnsweredStudies: (parent: any, args: any, { models, isAuth, userId }: ContextInterface) => {
-      if (!isAuth) {
-        throw new ApolloError('Authentication required', '403');
-      }
+    getAnsweredStudies: (parent: any, args: any, { models, user }: ContextInterface) => {
       const answeredReqs = Object.values(models.consent).filter(
-        (req: any) => req.userId === userId && req.consentState !== null
+        (req: any) => req.userId === user.id! && req.consentState !== null
       );
       return answeredReqs.map((answeredReq: any) => {
         const studyId = answeredReq.studyId;
