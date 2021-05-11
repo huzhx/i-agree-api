@@ -5,7 +5,8 @@ const auth = (req: any) => {
 
   if (!token) {
     return {
-      isAuth: false,
+      isAuthed: false,
+      userId: undefined,
     };
   }
 
@@ -18,18 +19,19 @@ const auth = (req: any) => {
     decoded = jwt.verify(token, process.env.JWT_SECRET!);
   } catch (err) {
     console.log(err);
-    return { isAuth: false };
+    return { isAuthed: false, userId: undefined };
   }
 
   if (!decoded) {
     return {
-      isAuth: false,
+      isAuthed: false,
+      userId: undefined,
     };
   }
 
   console.log({ decoded });
 
-  return { isAuth: true, ...(decoded as {}) };
+  return { isAuthed: true, ...(decoded as { userId: string }) };
 };
 
 export default auth;
