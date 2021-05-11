@@ -8,7 +8,7 @@ const resolvers = {
       const checkCompletenessAction = new CheckCompletenessAction(new CheckCompletenessRepositoryUsingMock(models));
       return checkCompletenessAction.execute(user.id!);
     },
-    getBaselinePreference: (
+    baselinePreferenceBy: (
       parent: any,
       { institutionType }: { institutionType: string },
       { models, user }: ContextInterface
@@ -19,7 +19,7 @@ const resolvers = {
         return null;
       }
     },
-    getPendingStudiesNumber: (parent: any, args: any, { models, user }: ContextInterface) => {
+    pendingStudiesNumber: (parent: any, args: any, { models, user }: ContextInterface) => {
       let pendingStudiesNumber = 0;
       let value: any;
       for (value of Object.values(models.consent)) {
@@ -29,7 +29,7 @@ const resolvers = {
       }
       return pendingStudiesNumber;
     },
-    getPendingStudies: (parent: any, args: any, { models, user }: ContextInterface) => {
+    pendingStudies: (parent: any, args: any, { models, user }: ContextInterface) => {
       const pendingReqs = Object.values(models.consent).filter(
         (req: any) => req.userId === user.id! && req.consentState === null
       );
@@ -39,7 +39,7 @@ const resolvers = {
         return study;
       });
     },
-    getAnsweredStudies: (parent: any, args: any, { models, user }: ContextInterface) => {
+    answeredStudies: (parent: any, args: any, { models, user }: ContextInterface) => {
       const answeredReqs = Object.values(models.consent).filter(
         (req: any) => req.userId === user.id! && req.consentState !== null
       );

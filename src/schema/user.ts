@@ -8,10 +8,10 @@ const schema = gql`
 
   extend type Query {
     baselinePreferenceCompleted: Boolean!
-    getBaselinePreference(institutionType: InstitutionType!): Int
-    getPendingStudiesNumber: Int!
-    getPendingStudies: [Study!]
-    getAnsweredStudies: [StudyPreference!]
+    baselinePreferenceBy(institutionType: InstitutionType!): Int
+    pendingStudiesNumber: Int!
+    pendingStudies: [Study!]
+    answeredStudies: [StudyPreference!]
   }
 
   extend type Mutation {
