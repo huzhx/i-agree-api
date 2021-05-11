@@ -6,7 +6,8 @@ import { ApolloServer } from 'apollo-server-express';
 import typeDefs from './schema';
 import resolvers from './resolvers';
 import models from './models';
-import auth from './utils/auth'
+import auth from './utils/auth';
+import { User } from './entities/user';
 
 console.log('Hello running iAgree Project.');
 
@@ -18,8 +19,8 @@ const server = new ApolloServer({
   typeDefs,
   resolvers,
   context: ({ req }) => {
-    const authState = auth(req);
-    return { models, ...authState };
+    const user: User = User.creator(auth(req));
+    return { models, user };
   },
 });
 
