@@ -7,7 +7,7 @@ const schema = gql`
   }
 
   extend type Query {
-    baselinePreferencesCompleted: Boolean!
+    baselinePreferenceCompleted: Boolean!
     getBaselinePreference(institutionType: InstitutionType!): Int
     getPendingStudiesNumber: Int!
     getPendingStudies: [Study!]

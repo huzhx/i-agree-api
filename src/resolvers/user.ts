@@ -4,7 +4,7 @@ import { CheckCompletenessRepositoryUsingMock } from '../repositories/baseline-p
 
 const resolvers = {
   Query: {
-    baselinePreferencesCompleted: (parent: any, args: any, { models, user }: ContextInterface) => {
+    baselinePreferenceCompleted: (parent: any, args: any, { models, user }: ContextInterface) => {
       const checkCompletenessAction = new CheckCompletenessAction(new CheckCompletenessRepositoryUsingMock(models));
       return checkCompletenessAction.execute(user.id!);
     },
