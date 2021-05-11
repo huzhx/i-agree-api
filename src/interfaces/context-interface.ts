@@ -1,5 +1,6 @@
+import { UserInterface } from './user-interface';
+
 export interface ContextInterface {
   models: any;
-  isAuth: boolean;
-  userId: string;
+  user: UserInterface;
 }
