@@ -1,9 +1,12 @@
 import { ContextInterface } from '../interfaces/context-interface';
+import { CheckCompletenessAction } from '../services/baseline-preference/check-completeness-action';
+import { CheckCompletenessRepositoryUsingMock } from '../repositories/baseline-preference/check-completeness-repository-using-mock';
 
 const resolvers = {
   Query: {
     baselinePreferencesCompleted: (parent: any, args: any, { models, user }: ContextInterface) => {
-      return user.id! in models.baselinePreference && Object.keys(models.baselinePreference[user.id!]).length === 8;
+      const checkCompletenessAction = new CheckCompletenessAction(new CheckCompletenessRepositoryUsingMock(models));
+      return checkCompletenessAction.execute(user.id!);
     },
     getBaselinePreference: (
       parent: any,
