@@ -6,6 +6,8 @@ import { QueryWithInstitutionTypeAction } from '../services/baseline-preference/
 import { InstitutionTypeInterface } from '../interfaces/institution/institution-type-interface';
 import { QueryPendingStudiesNumberRepository } from '../repositories/study/query-pending-studies-number-repository-using-mock';
 import { QueryPendingStudiesNumberAction } from '../services/study/query-pending-studies-number-action';
+import { PendingStudiesRepositoryUsingMock } from '../repositories/study/pending-studies-repository-using-mock';
+import { QueryPendingStudiesAction } from '../services/study/query-pending-studies-action';
 
 const resolvers = {
   Query: {
@@ -30,14 +32,8 @@ const resolvers = {
       return queryPendingStudiesNumberAction.execute(user.id!);
     },
     pendingStudies: (parent: any, args: any, { models, user }: ContextInterface) => {
-      const pendingReqs = Object.values(models.consent).filter(
-        (req: any) => req.userId === user.id! && req.consentState === null
-      );
-      return pendingReqs.map((pendingReq: any) => {
-        const studyId = pendingReq.studyId;
-        const study = models.study[studyId];
-        return study;
-      });
+      const queryPendingStudiesAction = new QueryPendingStudiesAction(new PendingStudiesRepositoryUsingMock(models));
+      return queryPendingStudiesAction.execute(user.id!);
     },
     answeredStudies: (parent: any, args: any, { models, user }: ContextInterface) => {
       const answeredReqs = Object.values(models.consent).filter(
