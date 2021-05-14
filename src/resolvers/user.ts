@@ -4,6 +4,8 @@ import { CheckCompletenessRepositoryUsingMock } from '../repositories/baseline-p
 import { QueryWithInstitutionTypeRepositoryUsingMock } from '../repositories/baseline-preference/query-with-institution-type-repository-using-mock';
 import { QueryWithInstitutionTypeAction } from '../services/baseline-preference/query-with-institution-type-action';
 import { InstitutionTypeInterface } from '../interfaces/institution/institution-type-interface';
+import { QueryPendingStudiesNumberRepository } from '../repositories/study/query-pending-studies-number-repository-using-mock';
+import { QueryPendingStudiesNumberAction } from '../services/study/query-pending-studies-number-action';
 
 const resolvers = {
   Query: {
@@ -22,14 +24,10 @@ const resolvers = {
       return queryWithInstitutionTypeAction.execute(user.id!, institutionType);
     },
     pendingStudiesNumber: (parent: any, args: any, { models, user }: ContextInterface) => {
-      let pendingStudiesNumber = 0;
-      let value: any;
-      for (value of Object.values(models.consent)) {
-        if (value['userId'] === user.id! && value['consentState'] === null) {
-          pendingStudiesNumber++;
-        }
-      }
-      return pendingStudiesNumber;
+      const queryPendingStudiesNumberAction = new QueryPendingStudiesNumberAction(
+        new QueryPendingStudiesNumberRepository(models)
+      );
+      return queryPendingStudiesNumberAction.execute(user.id!);
     },
     pendingStudies: (parent: any, args: any, { models, user }: ContextInterface) => {
       const pendingReqs = Object.values(models.consent).filter(
