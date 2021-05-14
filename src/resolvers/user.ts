@@ -1,6 +1,6 @@
 import { ContextInterface } from '../interfaces/context-interface';
-import { CheckCompletenessAction } from '../services/baseline-preference/check-completeness-action';
-import { CheckCompletenessRepositoryUsingMock } from '../repositories/baseline-preference/check-completeness-repository-using-mock';
+import { QueryPreferenceCompletenessAction } from '../services/baseline-preference/query-preference-completeness-action';
+import { PreferenceCompletenessRepositoryUsingMock } from '../repositories/baseline-preference/preference-completeness-repository-using-mock';
 import { PreferenceForInstitutionRepositoryUsingMock } from '../repositories/baseline-preference/preference-for-institution-repository-using-mock';
 import { QueryPreferenceForInstitutionAction } from '../services/baseline-preference/query-preference-for-institution-action';
 import { InstitutionTypeInterface } from '../interfaces/institution/institution-type-interface';
@@ -12,8 +12,10 @@ import { QueryPendingStudiesAction } from '../services/study/query-pending-studi
 const resolvers = {
   Query: {
     baselinePreferenceCompleted: (parent: any, args: any, { models, user }: ContextInterface) => {
-      const checkCompletenessAction = new CheckCompletenessAction(new CheckCompletenessRepositoryUsingMock(models));
-      return checkCompletenessAction.execute(user.id!);
+      const queryPreferenceCompletenessAction = new QueryPreferenceCompletenessAction(
+        new PreferenceCompletenessRepositoryUsingMock(models)
+      );
+      return queryPreferenceCompletenessAction.execute(user.id!);
     },
     baselinePreferenceBy: (
       parent: any,
