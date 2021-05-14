@@ -1,6 +1,9 @@
 import { ContextInterface } from '../interfaces/context-interface';
 import { CheckCompletenessAction } from '../services/baseline-preference/check-completeness-action';
 import { CheckCompletenessRepositoryUsingMock } from '../repositories/baseline-preference/check-completeness-repository-using-mock';
+import { QueryWithInstitutionTypeRepositoryUsingMock } from '../repositories/baseline-preference/query-with-institution-type-repository-using-mock';
+import { QueryWithInstitutionTypeAction } from '../services/baseline-preference/query-with-institution-type-action';
+import { InstitutionTypeInterface } from '../interfaces/institution/institution-type-interface';
 
 const resolvers = {
   Query: {
@@ -10,14 +13,13 @@ const resolvers = {
     },
     baselinePreferenceBy: (
       parent: any,
-      { institutionType }: { institutionType: string },
+      { institutionType }: { institutionType: InstitutionTypeInterface },
       { models, user }: ContextInterface
     ) => {
-      if (user.id! in models.baselinePreference) {
-        return models.baselinePreference[user.id!][institutionType];
-      } else {
-        return null;
-      }
+      const queryWithInstitutionTypeAction = new QueryWithInstitutionTypeAction(
+        new QueryWithInstitutionTypeRepositoryUsingMock(models)
+      );
+      return queryWithInstitutionTypeAction.execute(user.id!, institutionType);
     },
     pendingStudiesNumber: (parent: any, args: any, { models, user }: ContextInterface) => {
       let pendingStudiesNumber = 0;
