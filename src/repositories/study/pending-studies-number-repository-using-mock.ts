@@ -1,6 +1,6 @@
-import { QueryPendingStudiesNumberRepositoryInterface } from '../../interfaces/study/query-pending-studies-number-repository-interface';
+import { PendingStudiesNumberRepositoryInterface } from '../../interfaces/study/pending-studies-number-repository-interface';
 
-export class QueryPendingStudiesNumberRepository implements QueryPendingStudiesNumberRepositoryInterface {
+export class PendingStudiesNumberRepositoryUsingMock implements PendingStudiesNumberRepositoryInterface {
   private models: { consent: {} };
   constructor(models: { consent: {} }) {
     this.models = models;

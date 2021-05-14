@@ -4,7 +4,7 @@ import { CheckCompletenessRepositoryUsingMock } from '../repositories/baseline-p
 import { QueryWithInstitutionTypeRepositoryUsingMock } from '../repositories/baseline-preference/query-with-institution-type-repository-using-mock';
 import { QueryWithInstitutionTypeAction } from '../services/baseline-preference/query-with-institution-type-action';
 import { InstitutionTypeInterface } from '../interfaces/institution/institution-type-interface';
-import { QueryPendingStudiesNumberRepository } from '../repositories/study/query-pending-studies-number-repository-using-mock';
+import { PendingStudiesNumberRepositoryUsingMock } from '../repositories/study/pending-studies-number-repository-using-mock';
 import { QueryPendingStudiesNumberAction } from '../services/study/query-pending-studies-number-action';
 import { PendingStudiesRepositoryUsingMock } from '../repositories/study/pending-studies-repository-using-mock';
 import { QueryPendingStudiesAction } from '../services/study/query-pending-studies-action';
@@ -27,7 +27,7 @@ const resolvers = {
     },
     pendingStudiesNumber: (parent: any, args: any, { models, user }: ContextInterface) => {
       const queryPendingStudiesNumberAction = new QueryPendingStudiesNumberAction(
-        new QueryPendingStudiesNumberRepository(models)
+        new PendingStudiesNumberRepositoryUsingMock(models)
       );
       return queryPendingStudiesNumberAction.execute(user.id!);
     },

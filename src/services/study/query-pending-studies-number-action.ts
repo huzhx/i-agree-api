@@ -1,13 +1,13 @@
-import { QueryPendingStudiesNumberRepositoryInterface } from '../../interfaces/study/query-pending-studies-number-repository-interface';
+import { PendingStudiesNumberRepositoryInterface } from '../../interfaces/study/pending-studies-number-repository-interface';
 
 export class QueryPendingStudiesNumberAction {
-  private queryPendingStudiesNumberRepository: QueryPendingStudiesNumberRepositoryInterface;
+  private pendingStudiesNumberRepository: PendingStudiesNumberRepositoryInterface;
 
-  constructor(queryPendingStudiesNumberRepository: QueryPendingStudiesNumberRepositoryInterface) {
-    this.queryPendingStudiesNumberRepository = queryPendingStudiesNumberRepository;
+  constructor(pendingStudiesNumberRepository: PendingStudiesNumberRepositoryInterface) {
+    this.pendingStudiesNumberRepository = pendingStudiesNumberRepository;
   }
 
   public execute(userId: string): number {
-    return this.queryPendingStudiesNumberRepository.getBy(userId);
+    return this.pendingStudiesNumberRepository.getBy(userId);
   }
 }
