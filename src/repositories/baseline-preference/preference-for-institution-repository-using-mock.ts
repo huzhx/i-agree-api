@@ -1,7 +1,7 @@
-import { QueryWithInstitutionTypeRepositoryInterface } from '../../interfaces/baseline-preference/query-with-institution-type-repository-interface';
+import { PreferenceForInstitutionRepositoryInterface } from '../../interfaces/baseline-preference/preference-for-institution-repository-interface';
 import { InstitutionTypeInterface } from '../../interfaces/institution/institution-type-interface';
 
-export class QueryWithInstitutionTypeRepositoryUsingMock implements QueryWithInstitutionTypeRepositoryInterface {
+export class PreferenceForInstitutionRepositoryUsingMock implements PreferenceForInstitutionRepositoryInterface {
   private models: any;
   constructor(models: any) {
     this.models = models;

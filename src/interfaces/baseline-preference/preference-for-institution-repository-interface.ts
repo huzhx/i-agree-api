@@ -1,5 +1,5 @@
 import { InstitutionTypeInterface } from '../institution/institution-type-interface';
 
-export interface QueryWithInstitutionTypeRepositoryInterface {
+export interface PreferenceForInstitutionRepositoryInterface {
   getBy(userId: string, institutionType: InstitutionTypeInterface): number;
 }

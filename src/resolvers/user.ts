@@ -1,8 +1,8 @@
 import { ContextInterface } from '../interfaces/context-interface';
 import { CheckCompletenessAction } from '../services/baseline-preference/check-completeness-action';
 import { CheckCompletenessRepositoryUsingMock } from '../repositories/baseline-preference/check-completeness-repository-using-mock';
-import { QueryWithInstitutionTypeRepositoryUsingMock } from '../repositories/baseline-preference/query-with-institution-type-repository-using-mock';
-import { QueryWithInstitutionTypeAction } from '../services/baseline-preference/query-with-institution-type-action';
+import { PreferenceForInstitutionRepositoryUsingMock } from '../repositories/baseline-preference/preference-for-institution-repository-using-mock';
+import { QueryPreferenceForInstitutionAction } from '../services/baseline-preference/query-preference-for-institution-action';
 import { InstitutionTypeInterface } from '../interfaces/institution/institution-type-interface';
 import { PendingStudiesNumberRepositoryUsingMock } from '../repositories/study/pending-studies-number-repository-using-mock';
 import { QueryPendingStudiesNumberAction } from '../services/study/query-pending-studies-number-action';
@@ -20,10 +20,10 @@ const resolvers = {
       { institutionType }: { institutionType: InstitutionTypeInterface },
       { models, user }: ContextInterface
     ) => {
-      const queryWithInstitutionTypeAction = new QueryWithInstitutionTypeAction(
-        new QueryWithInstitutionTypeRepositoryUsingMock(models)
+      const queryPreferenceForInstitutionAction = new QueryPreferenceForInstitutionAction(
+        new PreferenceForInstitutionRepositoryUsingMock(models)
       );
-      return queryWithInstitutionTypeAction.execute(user.id!, institutionType);
+      return queryPreferenceForInstitutionAction.execute(user.id!, institutionType);
     },
     pendingStudiesNumber: (parent: any, args: any, { models, user }: ContextInterface) => {
       const queryPendingStudiesNumberAction = new QueryPendingStudiesNumberAction(
