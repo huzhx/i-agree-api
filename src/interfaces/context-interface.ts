@@ -1,6 +1,7 @@
 import { UserInterface } from './user-interface';
 
 export interface ContextInterface {
-  models: any;
+  models?: any;
   user: UserInterface;
+  prisma?: any;
 }
