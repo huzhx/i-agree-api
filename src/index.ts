@@ -2,12 +2,14 @@ import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
 import { ApolloServer } from 'apollo-server-express';
+import { ApolloError } from 'apollo-server-errors';
 
 import typeDefs from './schema';
 import resolvers from './resolvers';
 import models from './models';
 import auth from './utils/auth';
 import { User } from './entities/user';
+import { AuthTokenInterface } from './interfaces/auth-token-interface';
 
 const PORT = process.env.PORT || 4000;
 const app = express();
@@ -23,10 +25,15 @@ const server = new ApolloServer({
   typeDefs,
   resolvers,
   context: ({ req }) => {
-    const user: User = User.creator(auth(req));
-    return { models, user };
+    let decoded: AuthTokenInterface;
+    try {
+      decoded = auth(req);
+      const user: User = User.create(decoded);
+      return { models, user };
+    } catch (err) {
+      throw new ApolloError(err);
+    }
   },
-  introspection: true,
   playground: true,
 });
 
