@@ -1,31 +1,24 @@
-import { AuthenticationError } from 'apollo-server-errors';
 import { UserInterface } from '../interfaces/user-interface';
+import { AuthTokenInterface } from '../interfaces/auth-token-interface';
 
 export class User implements UserInterface {
   private _id: string | undefined = undefined;
-  private _isAuthed: boolean = false;
+  private _email: string | undefined = undefined;
 
   private constructor() {}
 
-  public static creator({ userId, isAuthed }: { userId: string | undefined; isAuthed: boolean }): User {
+  public static create({ userID, userEmail }: AuthTokenInterface): User {
     const user = new User();
-    user._id = userId;
-    user._isAuthed = isAuthed;
-    user.valid();
+    user._id = userID;
+    user._email = userEmail;
     return user;
-  }
-
-  private valid(): void {
-    if (this._isAuthed === false || this._id === undefined) {
-      throw new AuthenticationError('Authentication required');
-    }
   }
 
   get id() {
     return this._id;
   }
 
-  get isAuthed() {
-    return this._isAuthed;
+  get email() {
+    return this._email;
   }
 }
