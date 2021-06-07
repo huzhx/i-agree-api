@@ -1,5 +1,5 @@
 export interface WriteRepositoryInterface {
-  save<Type>(entity: Type): void;
+  save(entity: any): void;
   nextIdentity?(): string;
-  getById<Type>(id: Type): Type;
+  getById(id: string): any;
 }
