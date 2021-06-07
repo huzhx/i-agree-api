@@ -2,7 +2,7 @@ import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
 import { ApolloServer } from 'apollo-server-express';
-import { ApolloError } from 'apollo-server-errors';
+import { AuthenticationError } from 'apollo-server-errors';
 import { PrismaClient } from '@prisma/client';
 
 import typeDefs from './schema';
@@ -15,6 +15,8 @@ import { UserExistenceRepositoryUsingPrisma } from './repositories/user/user-exi
 import { TokenDecodedInterface } from './interfaces/token-decoded-interface';
 import { SaveUserRepositoryUsingPrisma } from './repositories/user/save-user-repository-using-prisma';
 import { EnrollUserAction } from './services/user/enroll-user-action';
+import { AuthTokenExpiredRepositoryUsingPrisma } from './repositories/user/auth-token-expired-repository-using-prisma';
+import { CheckAuthTokenExpiredAction } from './services/user/check-auth-token-expired-action';
 
 const PORT = process.env.PORT || 4000;
 const app = express();
@@ -45,11 +47,21 @@ const server = new ApolloServer({
       if (!userExists) {
         const enrollUserAction = new EnrollUserAction(new SaveUserRepositoryUsingPrisma(new PrismaClient()));
         enrollUserAction.save(user);
+      } else {
+        // check if auth token has expired
+        const checkAuthTokenExpiredAction = new CheckAuthTokenExpiredAction(
+          new AuthTokenExpiredRepositoryUsingPrisma(new PrismaClient())
+        );
+        const tokenExpired = await checkAuthTokenExpiredAction.execute(user.id!, user.authToken!);
+        console.log({ tokenExpired });
+        if (tokenExpired) {
+          throw new AuthenticationError('Authentication failed');
+        }
       }
 
       return { models, user };
     } catch (err) {
-      throw new ApolloError(err);
+      throw new AuthenticationError('Authentication failed');
     }
   },
   introspection: true,
