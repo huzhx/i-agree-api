@@ -3,7 +3,15 @@ import { gql } from 'apollo-server-express';
 const schema = gql`
   type User {
     id: ID!
+    authTokens: [AuthToken]
     baselinePreference: [DataElementPreference!]
+  }
+
+  type AuthToken {
+    id: ID!
+    token: String!
+    isExpired: Boolean!
+    userId: String!
   }
 
   extend type Query {
@@ -15,6 +23,7 @@ const schema = gql`
   }
 
   extend type Mutation {
+    expireAuthToken: AuthToken
     updateBaselinePreference(userId: ID!, institutionType: InstitutionType!, consentState: Int!): DataElementPreference!
     updateStudyPreference(userId: ID!, studyId: ID!, consentInfo: ConsentInfo!): StudyPreference!
   }
