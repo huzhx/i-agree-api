@@ -10,9 +10,11 @@ import resolvers from './resolvers';
 import models from './models';
 import auth from './utils/auth';
 import { User } from './entities/user';
-import { AuthTokenInterface } from './interfaces/auth-token-interface';
 import { CheckUserExistenceAction } from './services/user/check-user-existence-action';
 import { UserExistenceRepositoryUsingPrisma } from './repositories/user/user-existence-repository-using-prisma';
+import { TokenDecodedInterface } from './interfaces/token-decoded-interface';
+import { SaveUserRepositoryUsingPrisma } from './repositories/user/save-user-repository-using-prisma';
+import { EnrollUserAction } from './services/user/enroll-user-action';
 
 const PORT = process.env.PORT || 4000;
 const app = express();
@@ -28,7 +30,7 @@ const server = new ApolloServer({
   typeDefs,
   resolvers,
   context: async ({ req }) => {
-    let decoded: AuthTokenInterface;
+    let decoded: TokenDecodedInterface;
     try {
       decoded = auth(req);
       const user: User = User.create(decoded);
@@ -38,6 +40,12 @@ const server = new ApolloServer({
       );
       const userExists = await checkUserExistenceAction.execute(user.id!);
       console.log({ userExists });
+
+      // enroll user if the user does not exist
+      if (!userExists) {
+        const enrollUserAction = new EnrollUserAction(new SaveUserRepositoryUsingPrisma(new PrismaClient()));
+        enrollUserAction.save(user);
+      }
 
       return { models, user };
     } catch (err) {
