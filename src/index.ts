@@ -34,6 +34,7 @@ const server = new ApolloServer({
       throw new ApolloError(err);
     }
   },
+  introspection: true,
   playground: true,
 });
 
