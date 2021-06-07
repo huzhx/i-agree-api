@@ -43,7 +43,7 @@ export class SaveUserRepositoryUsingPrisma implements WriteRepositoryInterface {
   }
 
   private async getQuery(userId: string) {
-    await this.prisma.user.findMany({
+    return await this.prisma.user.findMany({
       where: {
         id: userId,
       },
