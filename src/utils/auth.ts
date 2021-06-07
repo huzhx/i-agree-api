@@ -1,37 +1,28 @@
 import jwt from 'jsonwebtoken';
+import { AuthenticationError, ApolloError } from 'apollo-server-errors';
+import { AuthTokenInterface } from '../interfaces/auth-token-interface';
 
 const auth = (req: any) => {
   let token = req.headers.authorization || '';
 
   if (!token) {
-    return {
-      isAuthed: false,
-      userId: undefined,
-    };
+    throw new AuthenticationError('Authentication failed');
   }
 
   token = token.replace('Bearer ', '');
 
-  console.log({ token });
-
   let decoded;
+
+  if (!process.env.JWT_SECRET) {
+    throw new ApolloError('JWT_SECRET is not found');
+  }
   try {
     decoded = jwt.verify(token, process.env.JWT_SECRET!);
   } catch (err) {
-    console.log(err);
-    return { isAuthed: false, userId: undefined };
+    throw new AuthenticationError('Authentication failed');
   }
 
-  if (!decoded) {
-    return {
-      isAuthed: false,
-      userId: undefined,
-    };
-  }
-
-  console.log({ decoded });
-
-  return { isAuthed: true, ...(decoded as { userId: string }) };
+  return { ...(decoded as AuthTokenInterface) };
 };
 
 export default auth;
