@@ -22,7 +22,7 @@ const auth = (req: any) => {
     throw new AuthenticationError('Authentication failed');
   }
 
-  return { ...(decoded as AuthTokenInterface) };
+  return { ...(decoded as AuthTokenInterface), authToken: token };
 };
 
 export default auth;
