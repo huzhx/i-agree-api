@@ -17,6 +17,8 @@ import { SaveUserRepositoryUsingPrisma } from './repositories/user/save-user-rep
 import { EnrollUserAction } from './services/user/enroll-user-action';
 import { AuthTokenExpiredRepositoryUsingPrisma } from './repositories/user/auth-token-expired-repository-using-prisma';
 import { CheckAuthTokenExpiredAction } from './services/user/check-auth-token-expired-action';
+import { AuthTokenExistenceRepositoryUsingPrisma } from './repositories/user/auth-token-existence-repository-using-prisma';
+import { CheckAuthTokenExistenceAction } from './services/user/check-auth-token-existence-action';
 
 const PORT = process.env.PORT || 4000;
 const app = express();
@@ -43,14 +45,26 @@ const server = new ApolloServer({
       const userExists = await checkUserExistenceAction.execute(user.id!);
       console.log({ userExists });
 
+      const prisma = new PrismaClient();
+
       // enroll user if the user does not exist
       if (!userExists) {
-        const enrollUserAction = new EnrollUserAction(new SaveUserRepositoryUsingPrisma(new PrismaClient()));
+        const enrollUserAction = new EnrollUserAction(new SaveUserRepositoryUsingPrisma(prisma));
         enrollUserAction.save(user);
       } else {
+        // check if token exists
+        const checkAuthTokenExistenceAction = new CheckAuthTokenExistenceAction(
+          new AuthTokenExistenceRepositoryUsingPrisma(prisma)
+        );
+        const tokenExists = await checkAuthTokenExistenceAction.execute(user.id!, user.authToken!);
+        console.log({ tokenExists });
+
+        // Todo: if token doesn't exist, add token to db
+        
+
         // check if auth token has expired
         const checkAuthTokenExpiredAction = new CheckAuthTokenExpiredAction(
-          new AuthTokenExpiredRepositoryUsingPrisma(new PrismaClient())
+          new AuthTokenExpiredRepositoryUsingPrisma(prisma)
         );
         const tokenExpired = await checkAuthTokenExpiredAction.execute(user.id!, user.authToken!);
         console.log({ tokenExpired });
@@ -59,7 +73,7 @@ const server = new ApolloServer({
         }
       }
 
-      return { models, user };
+      return { models, user, prisma };
     } catch (err) {
       throw new AuthenticationError('Authentication failed');
     }
