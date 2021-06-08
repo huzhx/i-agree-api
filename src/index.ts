@@ -19,6 +19,8 @@ import { AuthTokenExpiredRepositoryUsingPrisma } from './repositories/user/auth-
 import { CheckAuthTokenExpiredAction } from './services/user/check-auth-token-expired-action';
 import { AuthTokenExistenceRepositoryUsingPrisma } from './repositories/user/auth-token-existence-repository-using-prisma';
 import { CheckAuthTokenExistenceAction } from './services/user/check-auth-token-existence-action';
+import { SaveAuthTokenRepositoryUsingPrisma } from './repositories/user/save-auth-token-repository-using-prisma';
+import { SaveAuthTokenAction } from './services/user/save-auth-token-action';
 
 const PORT = process.env.PORT || 4000;
 const app = express();
@@ -58,18 +60,20 @@ const server = new ApolloServer({
         );
         const tokenExists = await checkAuthTokenExistenceAction.execute(user.id!, user.authToken!);
         console.log({ tokenExists });
-
-        // Todo: if token doesn't exist, add token to db
-        
-
-        // check if auth token has expired
-        const checkAuthTokenExpiredAction = new CheckAuthTokenExpiredAction(
-          new AuthTokenExpiredRepositoryUsingPrisma(prisma)
-        );
-        const tokenExpired = await checkAuthTokenExpiredAction.execute(user.id!, user.authToken!);
-        console.log({ tokenExpired });
-        if (tokenExpired) {
-          throw new AuthenticationError('Authentication failed');
+        // if token doesn't exist, add it to the database
+        if (tokenExists === false) {
+          const saveAuthTokenAction = new SaveAuthTokenAction(new SaveAuthTokenRepositoryUsingPrisma(prisma));
+          saveAuthTokenAction.save(user);
+        } else {
+          // check if auth token has expired
+          const checkAuthTokenExpiredAction = new CheckAuthTokenExpiredAction(
+            new AuthTokenExpiredRepositoryUsingPrisma(prisma)
+          );
+          const tokenExpired = await checkAuthTokenExpiredAction.execute(user.id!, user.authToken!);
+          console.log({ tokenExpired });
+          if (tokenExpired) {
+            throw new AuthenticationError('Authentication failed');
+          }
         }
       }
 
