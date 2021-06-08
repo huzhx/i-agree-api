@@ -8,6 +8,8 @@ import { PendingStudiesNumberRepositoryUsingMock } from '../repositories/study/p
 import { QueryPendingStudiesNumberAction } from '../services/study/query-pending-studies-number-action';
 import { PendingStudiesRepositoryUsingMock } from '../repositories/study/pending-studies-repository-using-mock';
 import { QueryPendingStudiesAction } from '../services/study/query-pending-studies-action';
+import { ExpireAuthTokenRepositoryUsingPrisma } from '../repositories/user/expire-auth-token-repository-using-prisma';
+import { ExpireAuthTokenAction } from '../services/user/expire-auth-token-action';
 
 const resolvers = {
   Query: {
@@ -56,6 +58,11 @@ const resolvers = {
   },
 
   Mutation: {
+    expireAuthToken: async (parent: any, args: any, { prisma, user }: ContextInterface) => {
+      const expireAuthTokenAction = new ExpireAuthTokenAction(new ExpireAuthTokenRepositoryUsingPrisma(prisma));
+      await expireAuthTokenAction.execute(user);
+      return user.authToken;
+    },
     updateBaselinePreference: (
       parent: any,
       { userId, institutionType, consentState }: { userId: string; institutionType: string; consentState: string },

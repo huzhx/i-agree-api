@@ -23,7 +23,7 @@ const schema = gql`
   }
 
   extend type Mutation {
-    expireAuthToken: AuthToken
+    expireAuthToken: String
     updateBaselinePreference(userId: ID!, institutionType: InstitutionType!, consentState: Int!): DataElementPreference!
     updateStudyPreference(userId: ID!, studyId: ID!, consentInfo: ConsentInfo!): StudyPreference!
   }
