@@ -6,9 +6,9 @@ export class PreferenceForInstitutionRepositoryUsingMock implements PreferenceFo
   constructor(models: any) {
     this.models = models;
   }
-  getBy(userId: string, institutionType: InstitutionTypeInterface): number {
+  getBy(userId: string, institutionType: InstitutionTypeInterface): Promise<number> {
     const baselinePreference = this.models.baselinePreference[userId];
     const consentState = baselinePreference[institutionType.toString()];
-    return consentState;
+    return Promise.resolve(consentState);
   }
 }
