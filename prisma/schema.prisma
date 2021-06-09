@@ -32,7 +32,7 @@ model AuthToken {
 }
 
 model DataElementPreference {
-  id Int @id @default(autoincrement())
+  id String @id
   institutionType String
   consentState Int @default(-1)
   userId String
