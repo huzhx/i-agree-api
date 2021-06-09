@@ -1,3 +1,3 @@
 export interface PreferenceCompletenessRepositoryInterface {
-  getBy(userId: string): boolean;
+  getBy(userId: string): Promise<boolean>;
 }
