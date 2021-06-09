@@ -7,7 +7,7 @@ export class QueryPreferenceCompletenessAction {
     this.preferenceCompletenessRepository = preferenceCompletenessRepository;
   }
 
-  public execute(userId: string): boolean {
+  public execute(userId: string): Promise<boolean> {
     return this.preferenceCompletenessRepository.getBy(userId);
   }
 }
