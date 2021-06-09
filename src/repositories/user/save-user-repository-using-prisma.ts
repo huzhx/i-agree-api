@@ -1,5 +1,6 @@
 import { WriteRepositoryInterface } from '../../interfaces/repository/write-repository-interface';
 import { UserInterface } from '../../interfaces/user-interface';
+import InstitutionType from '../../value-objects/institution-type';
 
 export class SaveUserRepositoryUsingPrisma implements WriteRepositoryInterface {
   private prisma: any;
@@ -29,6 +30,10 @@ export class SaveUserRepositoryUsingPrisma implements WriteRepositoryInterface {
   }
 
   private async saveQuery(user: UserInterface) {
+    const preferenceValues = [];
+    for (let type in InstitutionType) {
+      preferenceValues.push({ institutionType: type });
+    }
     await this.prisma.user.create({
       data: {
         id: user.id,
@@ -37,6 +42,9 @@ export class SaveUserRepositoryUsingPrisma implements WriteRepositoryInterface {
           create: {
             token: user.authToken,
           },
+        },
+        baselinePreference: {
+          create: preferenceValues,
         },
       },
     });
@@ -49,6 +57,7 @@ export class SaveUserRepositoryUsingPrisma implements WriteRepositoryInterface {
       },
       include: {
         authTokens: true,
+        baselinePreference: true,
       },
     });
   }
