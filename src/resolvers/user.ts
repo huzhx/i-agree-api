@@ -10,14 +10,15 @@ import { PendingStudiesRepositoryUsingMock } from '../repositories/study/pending
 import { QueryPendingStudiesAction } from '../services/study/query-pending-studies-action';
 import { ExpireAuthTokenRepositoryUsingPrisma } from '../repositories/user/expire-auth-token-repository-using-prisma';
 import { ExpireAuthTokenAction } from '../services/user/expire-auth-token-action';
+import { PreferenceCompletenessRepositoryUsingPrisma } from '../repositories/baseline-preference/preference-completeness-repository-using-prisma';
 
 const resolvers = {
   Query: {
-    baselinePreferenceCompleted: (parent: any, args: any, { models, user }: ContextInterface) => {
+    baselinePreferenceCompleted: async (parent: any, args: any, { prisma, user }: ContextInterface) => {
       const queryPreferenceCompletenessAction = new QueryPreferenceCompletenessAction(
-        new PreferenceCompletenessRepositoryUsingMock(models)
+        new PreferenceCompletenessRepositoryUsingPrisma(prisma)
       );
-      return queryPreferenceCompletenessAction.execute(user.id!);
+      return await queryPreferenceCompletenessAction.execute(user.id!);
     },
     baselinePreferenceBy: (
       parent: any,
