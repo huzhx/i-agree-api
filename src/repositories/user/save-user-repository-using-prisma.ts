@@ -1,3 +1,4 @@
+import { v4 as uuid } from 'uuid';
 import { WriteRepositoryInterface } from '../../interfaces/repository/write-repository-interface';
 import { UserInterface } from '../../interfaces/user-interface';
 import InstitutionType from '../../value-objects/institution-type';
@@ -32,7 +33,7 @@ export class SaveUserRepositoryUsingPrisma implements WriteRepositoryInterface {
   private async saveQuery(user: UserInterface) {
     const preferenceValues = [];
     for (let type in InstitutionType) {
-      preferenceValues.push({ institutionType: type });
+      preferenceValues.push({ id: uuid(), institutionType: type });
     }
     await this.prisma.user.create({
       data: {
