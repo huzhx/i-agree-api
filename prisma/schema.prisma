@@ -13,8 +13,7 @@ generator client {
 
 model User {
   id String @id
-  email String
-  baselinePreferenceCompleted Boolean @default(false)
+  email String 
   authTokens AuthToken[]
   baselinePreference DataElementPreference[]
   createdAt DateTime @default(now())
