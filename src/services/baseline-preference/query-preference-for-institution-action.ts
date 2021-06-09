@@ -8,7 +8,7 @@ export class QueryPreferenceForInstitutionAction {
     this.preferenceForInstitutionRepository = preferenceForInstitutionRepository;
   }
 
-  public execute(userId: string, institutionType: InstitutionTypeInterface) {
+  public execute(userId: string, institutionType: InstitutionTypeInterface): Promise<number> {
     return this.preferenceForInstitutionRepository.getBy(userId, institutionType);
   }
 }
