@@ -27,7 +27,8 @@ const resolvers = {
       const queryPreferenceForInstitutionAction = new QueryPreferenceForInstitutionAction(
         new PreferenceForInstitutionRepositoryUsingPrisma(prisma)
       );
-      return await queryPreferenceForInstitutionAction.execute(user.id!, institutionType);
+      const baselinePreference = await queryPreferenceForInstitutionAction.execute(user.id!, institutionType);
+      return baselinePreference.consentState;
     },
     pendingStudiesNumber: (parent: any, args: any, { models, user }: ContextInterface) => {
       const queryPendingStudiesNumberAction = new QueryPendingStudiesNumberAction(
