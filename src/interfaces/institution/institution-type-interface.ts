@@ -1,12 +1,4 @@
-enum InstitutionType {
-  DOCTORSOFFICE = 'DOCTORSOFFICE',
-  HOSPITAL = 'HOSPITAL',
-  INSURANCE = 'INSURANCE',
-  STATEHA = 'STATEHA',
-  GOVHA = 'GOVHA',
-  BIOTECHCOMPANY = 'BIOTECHCOMPANY',
-  UNIVERSITY = 'UNIVERSITY',
-}
+import InstitutionType from '../../value-objects/institution-type';
 
 export interface InstitutionTypeInterface {
   institutionType: InstitutionType;
