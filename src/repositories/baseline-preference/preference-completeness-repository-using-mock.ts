@@ -6,8 +6,8 @@ export class PreferenceCompletenessRepositoryUsingMock implements PreferenceComp
     this.models = models;
   }
 
-  getBy(userId: string): boolean {
+  getBy(userId: string): Promise<boolean> {
     const baselinePreference = this.models.baselinePreference;
-    return userId! in baselinePreference && Object.keys(baselinePreference[userId!]).length === 8;
+    return Promise.resolve(userId! in baselinePreference && Object.keys(baselinePreference[userId!]).length === 8);
   }
 }
