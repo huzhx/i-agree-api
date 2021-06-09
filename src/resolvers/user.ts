@@ -1,7 +1,5 @@
 import { ContextInterface } from '../interfaces/context-interface';
 import { QueryPreferenceCompletenessAction } from '../services/baseline-preference/query-preference-completeness-action';
-import { PreferenceCompletenessRepositoryUsingMock } from '../repositories/baseline-preference/preference-completeness-repository-using-mock';
-import { PreferenceForInstitutionRepositoryUsingMock } from '../repositories/baseline-preference/preference-for-institution-repository-using-mock';
 import { QueryPreferenceForInstitutionAction } from '../services/baseline-preference/query-preference-for-institution-action';
 import { InstitutionTypeInterface } from '../interfaces/institution/institution-type-interface';
 import { PendingStudiesNumberRepositoryUsingMock } from '../repositories/study/pending-studies-number-repository-using-mock';
@@ -11,6 +9,7 @@ import { QueryPendingStudiesAction } from '../services/study/query-pending-studi
 import { ExpireAuthTokenRepositoryUsingPrisma } from '../repositories/user/expire-auth-token-repository-using-prisma';
 import { ExpireAuthTokenAction } from '../services/user/expire-auth-token-action';
 import { PreferenceCompletenessRepositoryUsingPrisma } from '../repositories/baseline-preference/preference-completeness-repository-using-prisma';
+import { PreferenceForInstitutionRepositoryUsingPrisma } from '../repositories/baseline-preference/preference-for-institution-repository-using-prisma';
 
 const resolvers = {
   Query: {
@@ -20,15 +19,15 @@ const resolvers = {
       );
       return await queryPreferenceCompletenessAction.execute(user.id!);
     },
-    baselinePreferenceBy: (
+    baselinePreferenceBy: async (
       parent: any,
       { institutionType }: { institutionType: InstitutionTypeInterface },
-      { models, user }: ContextInterface
+      { prisma, user }: ContextInterface
     ) => {
       const queryPreferenceForInstitutionAction = new QueryPreferenceForInstitutionAction(
-        new PreferenceForInstitutionRepositoryUsingMock(models)
+        new PreferenceForInstitutionRepositoryUsingPrisma(prisma)
       );
-      return queryPreferenceForInstitutionAction.execute(user.id!, institutionType);
+      return await queryPreferenceForInstitutionAction.execute(user.id!, institutionType);
     },
     pendingStudiesNumber: (parent: any, args: any, { models, user }: ContextInterface) => {
       const queryPendingStudiesNumberAction = new QueryPendingStudiesNumberAction(
