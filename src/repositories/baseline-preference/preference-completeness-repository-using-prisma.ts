@@ -19,18 +19,18 @@ export class PreferenceCompletenessRepositoryUsingPrisma implements PreferenceCo
   }
 
   private async query(userId: string) {
-    const answer = await this.prisma.user
+    const answer = await this.prisma.dataElementPreference
       .findMany({
         where: {
-          id: userId,
-          baselinePreferenceCompleted: true,
+          userId,
+          consentState: -1,
         },
       })
       .then(this.$exists);
-    return answer;
+    return !answer;
   }
 
   private $exists<T>(ts: T[]): boolean {
-    return ts.length === 1;
+    return ts.length > 0;
   }
 }
