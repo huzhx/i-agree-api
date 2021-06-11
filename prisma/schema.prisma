@@ -47,7 +47,7 @@ model Study {
   piNames String
   sponsor String
   institutionalReviewBoard String
-  url String
+  url String @unique
   // using binary to represent the 7 data elements:['demographic', 'generalClinical','biospecimen','genetic','mentalHealth','sexAndReproductive','familyHistory'];
   // the index of the element = the binary digit position
   // 1 = required; 0 = not required
