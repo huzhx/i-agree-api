@@ -72,6 +72,8 @@ model Request {
   consentState Int @default(-1)
   declineReasons DeclineReason[]
   @@id([userId, studyId])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model DeclineReason {
@@ -81,4 +83,6 @@ model DeclineReason {
   userId String
   studyId String
   request Request @relation(fields: [userId, studyId],references: [userId, studyId])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt 
 }
