@@ -16,6 +16,7 @@ model User {
   email String 
   authTokens AuthToken[]
   baselinePreference DataElementPreference[]
+  requests Request[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -58,6 +59,26 @@ model Study {
   requiredDataElements Int
   enrollmentDeadline String // 'YYYY-MM-DD'
   url String @unique
+  requests Request[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt 
+}
+
+model Request {
+  userId String
+  user User @relation(fields: [userId], references: [id])
+  studyId String
+  study Study @relation(fields: [studyId], references:[id])
+  consentState Int @default(-1)
+  declineReasons DeclineReason[]
+  @@id([userId, studyId])
+}
+
+model DeclineReason {
+  id Int @id @default(autoincrement())
+  dataElement String
+  declineReason String
+  userId String
+  studyId String
+  request Request @relation(fields: [userId, studyId],references: [userId, studyId])
 }
