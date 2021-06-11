@@ -47,14 +47,15 @@ model Study {
   piNames String
   sponsor String
   institutionalReviewBoard String
-  url String @unique
+  institutionName String
+  institutionType String
   // using binary to represent the 7 data elements:['demographic', 'generalClinical','biospecimen','genetic','mentalHealth','sexAndReproductive','familyHistory'];
   // the index of the element = the binary digit position
   // 1 = required; 0 = not required
   // e.g, if study requires 'demographic', 'biospecimen', 'genetic', 'familyHistory', the binary representation will be 1001101  
   requiredDataElements Int
-  institutionType String
   enrollmentDeadline String // 'YYYY-MM-DD'
+  url String @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt 
 }
