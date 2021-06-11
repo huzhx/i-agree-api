@@ -76,6 +76,9 @@ model Request {
   updatedAt DateTime @updatedAt
 }
 
+// log all declines info
+// may not reflect the consent state
+// for example, if a user consents in the end the past decline information will not be deleted / altered
 model DeclineReason {
   id Int @id @default(autoincrement())
   dataElement String
