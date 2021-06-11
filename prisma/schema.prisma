@@ -46,7 +46,9 @@ model Study {
   purpose String
   piNames String
   sponsor String
-  institutionalReviewBoard String
+  irbContent String
+  irbApprovalDate String // 'YYYY-MM-DD'
+  irbApprovedBy String
   institutionName String
   institutionType String
   // using binary to represent the 7 data elements:['demographic', 'generalClinical','biospecimen','genetic','mentalHealth','sexAndReproductive','familyHistory'];
