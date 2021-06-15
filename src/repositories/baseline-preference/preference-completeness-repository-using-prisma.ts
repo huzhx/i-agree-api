@@ -23,14 +23,16 @@ export class PreferenceCompletenessRepositoryUsingPrisma implements PreferenceCo
       .findMany({
         where: {
           userId,
-          consentState: -1,
+          consentState: {
+            gt: -1,
+          },
         },
       })
-      .then(this.$exists);
-    return !answer;
+      .then(this.$completed);
+    return answer;
   }
 
-  private $exists<T>(ts: T[]): boolean {
-    return ts.length > 0;
+  private $completed<T>(ts: T[]): boolean {
+    return ts.length === 7;
   }
 }
