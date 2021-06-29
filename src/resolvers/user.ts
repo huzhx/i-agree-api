@@ -2,10 +2,8 @@ import { ContextInterface } from '../interfaces/context-interface';
 import { QueryPreferenceCompletenessAction } from '../services/baseline-preference/query-preference-completeness-action';
 import { QueryPreferenceForInstitutionAction } from '../services/baseline-preference/query-preference-for-institution-action';
 import { InstitutionTypeInterface } from '../interfaces/institution/institution-type-interface';
-import { PendingStudiesNumberRepositoryUsingMock } from '../repositories/study/pending-studies-number-repository-using-mock';
-import { QueryPendingStudiesNumberAction } from '../services/study/query-pending-studies-number-action';
-import { PendingStudiesRepositoryUsingMock } from '../repositories/study/pending-studies-repository-using-mock';
 import { QueryPendingStudiesAction } from '../services/study/query-pending-studies-action';
+import { PendingStudiesRepositoryUsingPrisma } from '../repositories/study/pending-studies-repository-using-prisma';
 import { ExpireAuthTokenRepositoryUsingPrisma } from '../repositories/user/expire-auth-token-repository-using-prisma';
 import { ExpireAuthTokenAction } from '../services/user/expire-auth-token-action';
 import { PreferenceCompletenessRepositoryUsingPrisma } from '../repositories/baseline-preference/preference-completeness-repository-using-prisma';
@@ -32,15 +30,15 @@ const resolvers = {
       const baselinePreference = await queryPreferenceForInstitutionAction.execute(user.id!, institutionType);
       return baselinePreference.consentState;
     },
-    pendingStudiesNumber: (parent: any, args: any, { models, user }: ContextInterface) => {
-      const queryPendingStudiesNumberAction = new QueryPendingStudiesNumberAction(
-        new PendingStudiesNumberRepositoryUsingMock(models)
-      );
-      return queryPendingStudiesNumberAction.execute(user.id!);
+    pendingStudiesNumber: async (parent: any, args: any, { prisma, user }: ContextInterface) => {
+      const queryPendingStudiesAction = new QueryPendingStudiesAction(new PendingStudiesRepositoryUsingPrisma(prisma));
+      const pendingStudies = await queryPendingStudiesAction.execute(user.id!);
+      return pendingStudies.length;
     },
-    pendingStudies: (parent: any, args: any, { models, user }: ContextInterface) => {
-      const queryPendingStudiesAction = new QueryPendingStudiesAction(new PendingStudiesRepositoryUsingMock(models));
-      return queryPendingStudiesAction.execute(user.id!);
+    pendingStudies: async (parent: any, args: any, { prisma, user }: ContextInterface) => {
+      const queryPendingStudiesAction = new QueryPendingStudiesAction(new PendingStudiesRepositoryUsingPrisma(prisma));
+      const pendingStudies = await queryPendingStudiesAction.execute(user.id!);
+      return pendingStudies;
     },
     answeredStudies: (parent: any, args: any, { models, user }: ContextInterface) => {
       const answeredReqs = Object.values(models.consent).filter(
