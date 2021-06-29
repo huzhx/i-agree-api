@@ -4,6 +4,8 @@ import { QueryPreferenceForInstitutionAction } from '../services/baseline-prefer
 import { InstitutionTypeInterface } from '../interfaces/institution/institution-type-interface';
 import { QueryPendingStudiesAction } from '../services/study/query-pending-studies-action';
 import { PendingStudiesRepositoryUsingPrisma } from '../repositories/study/pending-studies-repository-using-prisma';
+import { QueryAnsweredStudiesAction } from '../services/study/query-answered-studies-action';
+import { AnsweredStudiesRepositoryUsingPrisma } from '../repositories/study/answered-studies-repository-using-prisma';
 import { ExpireAuthTokenRepositoryUsingPrisma } from '../repositories/user/expire-auth-token-repository-using-prisma';
 import { ExpireAuthTokenAction } from '../services/user/expire-auth-token-action';
 import { PreferenceCompletenessRepositoryUsingPrisma } from '../repositories/baseline-preference/preference-completeness-repository-using-prisma';
@@ -40,21 +42,12 @@ const resolvers = {
       const pendingStudies = await queryPendingStudiesAction.execute(user.id!);
       return pendingStudies;
     },
-    answeredStudies: (parent: any, args: any, { models, user }: ContextInterface) => {
-      const answeredReqs = Object.values(models.consent).filter(
-        (req: any) => req.userId === user.id! && req.consentState !== null
+    answeredStudies: async (parent: any, args: any, { prisma, user }: ContextInterface) => {
+      const queryAnsweredStudiesAction = new QueryAnsweredStudiesAction(
+        new AnsweredStudiesRepositoryUsingPrisma(prisma)
       );
-      return answeredReqs.map((answeredReq: any) => {
-        const studyId = answeredReq.studyId;
-        const study = models.study[studyId];
-        const studyPreference = {
-          ...study,
-          consentState: answeredReq.consentState,
-          declineReason: answeredReq.declineReason,
-          declineReasonOther: answeredReq.declineReasonOther,
-        };
-        return studyPreference;
-      });
+      const answeredStudies = await queryAnsweredStudiesAction.execute(user.id!);
+      return answeredStudies;
     },
   },
 
