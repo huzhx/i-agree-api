@@ -8,7 +8,7 @@ export class QueryPendingStudiesAction {
     this.queryPendingStudiesRepository = queryPendingStudiesRepository;
   }
 
-  public execute(userId: string): StudyInterface[] {
+  public execute(userId: string): Promise<StudyInterface[]> {
     return this.queryPendingStudiesRepository.getBy(userId);
   }
 }
