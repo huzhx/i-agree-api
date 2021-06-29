@@ -1,4 +1,4 @@
-import { UserInterface } from './user-interface';
+import { UserInterface } from './user/user-interface';
 
 export interface ContextInterface {
   models?: any;

@@ -1,4 +1,4 @@
-import { UserInterface } from '../interfaces/user-interface';
+import { UserInterface } from '../interfaces/user/user-interface';
 import { TokenDecodedInterface } from '../interfaces/token-decoded-interface';
 
 export class User implements UserInterface {

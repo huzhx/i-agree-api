@@ -1,5 +1,5 @@
 import { WriteRepositoryInterface } from '../../interfaces/repository/write-repository-interface';
-import { UserInterface } from '../../interfaces/user-interface';
+import { UserInterface } from '../../interfaces/user/user-interface';
 
 export class SaveAuthTokenAction {
   private writeRepositoryInterface: WriteRepositoryInterface;

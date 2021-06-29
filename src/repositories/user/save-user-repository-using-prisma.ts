@@ -1,6 +1,6 @@
 import { v4 as uuid } from 'uuid';
 import { WriteRepositoryInterface } from '../../interfaces/repository/write-repository-interface';
-import { UserInterface } from '../../interfaces/user-interface';
+import { UserInterface } from '../../interfaces/user/user-interface';
 import InstitutionType from '../../value-objects/institution-type';
 
 export class SaveUserRepositoryUsingPrisma implements WriteRepositoryInterface {
