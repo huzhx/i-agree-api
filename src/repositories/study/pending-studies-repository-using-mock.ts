@@ -6,14 +6,16 @@ export class PendingStudiesRepositoryUsingMock implements PendingStudiesReposito
   constructor(models: { consent: {}; study: { [key: string]: StudyInterface } }) {
     this.models = models;
   }
-  getBy(userId: string): StudyInterface[] {
+  getBy(userId: string): Promise<StudyInterface[]> {
     const pendingReqs = Object.values(this.models.consent).filter(
       (req: any) => req.userId === userId! && req.consentState === null
     );
-    return pendingReqs.map((pendingReq: any) => {
-      const studyId: string = pendingReq.studyId;
-      const study = this.models.study[studyId];
-      return study;
-    });
+    return Promise.resolve(
+      pendingReqs.map((pendingReq: any) => {
+        const studyId: string = pendingReq.studyId;
+        const study = this.models.study[studyId];
+        return study;
+      })
+    );
   }
 }
